@@ -61,12 +61,9 @@ public class GenericArrayList<T> {
     public T[] addElement(T element)  {
 
         T[] genericArray = this.genericArray;
-        InputMismatchException inputMismatchException = new InputMismatchException("Data type must be: " + genericArray[0].getClass());
+
         Integer currentLength = this.getIndexOfFirstNull(genericArray);
 
-        if(element.getClass() != genericArray[0].getClass()) {
-            throw inputMismatchException;
-        }
         if (currentLength >= genericArray.length) {
             T[] newGenericArray = (T[]) new Object[currentLength * 2];
 

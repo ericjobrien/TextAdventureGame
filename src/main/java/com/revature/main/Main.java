@@ -1,12 +1,12 @@
 package com.revature.main;
 
+import com.revature.collections.GenericArrayList;
 import com.revature.dao.RoomDAO;
 import com.revature.game.Game;
 import com.revature.model.Room;
 import com.revature.util.ConnectionUtil;
 
 import java.sql.Connection;
-import java.util.List;
 
 public class Main {
     public static Connection conn = ConnectionUtil.getConnection();
@@ -17,9 +17,9 @@ public class Main {
 
         RoomDAO roomDAO = new RoomDAO();
 
-        List<Room> allRooms = roomDAO.getAllRooms();
+        GenericArrayList allRooms = roomDAO.getAllRooms();
 
-        System.out.println(allRooms.toString());
+        GenericArrayList.genericToString(allRooms);
 
 
     }
