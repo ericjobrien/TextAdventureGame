@@ -45,6 +45,11 @@ public class GenericArrayList<T> {
 
     public Integer getIndexOfFirstNull(T[] genericArray) {
 
+        /*
+        This helper method finds the first null value.
+        If the returned value is the same as the length of the given array, there is no null value present.
+         */
+
         Integer counter = 0;
 
         for(int i = 0; i < genericArray.length; i++) {
@@ -87,6 +92,13 @@ public class GenericArrayList<T> {
 
     public T[] expandArray(T[] genericArray) {
 
+        /*
+        This function automatically doubles the size of an array.
+        This can be useful, if you know there is no more room in an array.
+        You can use this method first, then use the addToArray helper method
+        for quick insertion into an array.
+         */
+
         Integer length = genericArray.length;
 
         GenericArrayList genericArrayList = new GenericArrayList(genericArray);
@@ -106,6 +118,15 @@ public class GenericArrayList<T> {
     }
 
     public void addToArray(T element, T[] genericArray) {
+
+         /*
+         Use this function when you know there is a null value present in an array.
+         This is a quick add feature, as it will bypass having to pass data from an array to a new generic array while null values are present in an array.
+         You can use the findFirstNull helper method in this class to determine if an array has a null value.
+         You can alternatively use the isPresent method to determine if a null value is present as well.
+         It will not expand the array and therefore cannot be used if there are no null values currently in an array.
+
+         */
 
         Integer length = genericArray.length;
         GenericArrayList genericArrayList = new GenericArrayList(genericArray);
@@ -128,6 +149,12 @@ public class GenericArrayList<T> {
 
     public Boolean isPresent(T element) {
 
+        /*
+        Use this to determine if a value is currently present in the underlying array.
+        You first have to pass the array to a GenericArrayList, to ensure the array being transversed
+        contains all the elements in the underlying array.
+         */
+
         T checkElement;
         for(int i = 0; i < this.genericArray.length; i++) {
             checkElement = this.genericArray[i];
@@ -145,7 +172,7 @@ public class GenericArrayList<T> {
         return false;
     }
 
-    public static void genericToString(GenericArrayList genericArrayList) {
+    public static String genericToString(GenericArrayList genericArrayList) {
 
         Object[] array = genericArrayList.genericArray;
         StringBuilder stringBuilder = new StringBuilder();
@@ -153,7 +180,7 @@ public class GenericArrayList<T> {
             stringBuilder.append("[" + element + "], ");
         }
         String string = stringBuilder.toString();
-        System.out.println(string);
+        return string;
     }
 
 

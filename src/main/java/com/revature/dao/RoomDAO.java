@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class RoomDAO {
 
     Connection conn;
+
     public RoomDAO() {
         conn = ConnectionUtil.getConnection();
     }
@@ -28,6 +29,7 @@ public class RoomDAO {
             while(rs2.next()) {
                 roomCount = rs2.getInt("numberOfRooms");
             }
+            rs2.close();
 
             Room[] rooms = new Room[roomCount];
             GenericArrayList genericArrayList = new GenericArrayList(rooms);
