@@ -54,4 +54,20 @@ public class RoomDAO {
 
         return null;
     }
+
+    public int getRoomCount() {
+
+        int roomCount = 0;
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT COUNT(room_id) AS numberOfRooms FROM room");
+            while (rs.next()) {
+                roomCount = rs.getInt("numberOfRooms");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return roomCount;
+    }
 }

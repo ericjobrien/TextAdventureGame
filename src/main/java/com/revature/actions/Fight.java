@@ -163,7 +163,7 @@ public class Fight {
                         Thread.sleep(1000);
                         System.out.println("\t> You have taken too much damage, you are too weak to go on!");
                         Thread.sleep(1000);
-                        System.out.println("Your final score is " + game.getScore() + "!");
+                        System.out.println("\t Your final score is " + game.getScore() + "!");
                         break;
                     }
                 } else if (input.equals("2")) {
@@ -171,12 +171,12 @@ public class Fight {
                     int healthAfterPotion = Player.useHealthPotion(player);
                     health = healthAfterPotion;
                     player.setCurrent_health(health);
-                    System.out.println("Your current health is " + health + "!");
+                    System.out.println("\t Your current health is " + health + "!");
 
                 } else if (input.equals("3")) { //attempting to flee the enemy
                     int hitChance = rand.nextInt(6);
 
-                    if(hitChance > 4) {
+                    if(hitChance > 3) {
                         enemyAttackDamage = rand.nextInt(enemyAttackDamage);
                         health -= enemyAttackDamage;
                         player.setCurrent_health(health);
@@ -198,8 +198,8 @@ public class Fight {
             }
 
             if (health < 1) {
-                System.out.println("You limp out of the dungeon, weak from battle.");
-                System.out.println("Your final score is " + game.getScore() + "!");
+                System.out.println("\t You limp out of the dungeon, weak from battle.");
+                System.out.println("\t Your final score is " + game.getScore() + "!");
                 break;
             }
 

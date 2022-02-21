@@ -3,6 +3,11 @@ package com.revature.model;
 import com.revature.collections.GenericArrayList;
 import com.revature.dao.PlayerDAO;
 import com.revature.dao.RoomDAO;
+import com.revature.main.Main;
+import com.revature.main.Main.*;
+
+
+
 
 public class Player {
 
@@ -108,12 +113,11 @@ public class Player {
     }
     public static int useHealthPotion(Player player) {
 
-
         int numberOfHealthPotions = player.getHealth_potion_amount();
         int currentPlayerHealth = player.getCurrent_health();
         int healthPotionBenefit = 30;
 
-        System.out.println("Player from potion: " + player.getType_of_player());
+        Main.log.info("Player from potion: " + player.getType_of_player());
 
         if(numberOfHealthPotions <= 0) {
             System.out.println("\t You do not have any health potions left.");

@@ -4,9 +4,11 @@ import com.revature.actions.Fight;
 import com.revature.actions.Move;
 import com.revature.collections.GenericArrayList;
 import com.revature.dao.RoomDAO;
+import com.revature.main.Main;
 import com.revature.model.Player;
 import com.revature.model.Room;
 
+import java.nio.channels.ScatteringByteChannel;
 import java.util.Scanner;
 
 public class Game {
@@ -16,7 +18,8 @@ public class Game {
 
     private final String playerOptions =  "What would you like to do? \n" +
             "M -- Move \n" +
-            "P -- Drink a health potion";
+            "P -- Drink a health potion \n" +
+            "Q -- Quit game";
 
     private final Fight fight = new Fight();
     private final Move move = new Move();
@@ -92,60 +95,72 @@ public class Game {
             System.out.println("\t What would you like to do?");
             Thread.sleep(1000);
             System.out.println(playerOptions);
-            choice = scanner.nextLine().toUpperCase().charAt(0);
+
 
             CHOICE:
             while(true) {
-                if (choice.equals('M')) {
-                    boolean willFight = fight.rollForFight();
-                    if(willFight == true) {
-                        fight.fightSequence();
-                        int fightScore = fight.getScore();
-                        fight.setScore(0);
-                        this.score += fightScore;
-                        Thread.sleep(1000);
-                        System.out.println("Your current score is " + this.score);
-                        Thread.sleep(1000);
-                        System.out.println("\t Your fight is over and now you will move.");
+
+                try {
+
+                    String nextLine = scanner.nextLine();
+                    choice = nextLine.toUpperCase().charAt(0);
+                    if(nextLine.equals(0x0A)) {
+                        System.out.println("\t Choose a valid option.");
+                        continue GAMESTART;
                     }
-                    move.move();
-                    Thread.sleep(1000);
-                    System.out.println("\t Your move has completed");
-                    continue GAMESTART;
-                } else if (choice.equals('P')) {
-                    Game game = new Game ();
-                    int healthAfterPotion = Player.useHealthPotion(player);
-                    currentPlayerHelath = healthAfterPotion;
-                    fight.getPlayer().setCurrent_health(currentPlayerHelath);
-                    player.setCurrent_health(currentPlayerHelath);
-                    Thread.sleep(1000);
-                    System.out.println("Your current health is " + currentPlayerHelath + "!");
-                    continue GAMESTART;
-                } else if (choice.equals('Q')) {
+                    if (choice.equals('M')) {
+                        boolean willFight = fight.rollForFight();
+                        if (willFight == true) {
+                            fight.fightSequence();
+                            int fightScore = fight.getScore();
+                            fight.setScore(0);
+                            this.score += fightScore;
+                            Thread.sleep(1000);
+                            System.out.println("\t Your current score is " + this.score);
+                            Thread.sleep(1000);
+                            System.out.println("\t Your fight is over and now you will move.");
+                        }
+                        move.move();
+                        Thread.sleep(1000);
+                        System.out.println("\t --------------------------------------------------------");
+                        System.out.println("\t Your move has completed");
+                        continue GAMESTART;
+                    } else if (choice.equals('P')) {
+                        Game game = new Game();
+                        int healthAfterPotion = Player.useHealthPotion(player);
+                        currentPlayerHelath = healthAfterPotion;
+                        fight.getPlayer().setCurrent_health(currentPlayerHelath);
+                        player.setCurrent_health(currentPlayerHelath);
+                        Thread.sleep(1000);
+                        System.out.println("\t Your current health is " + currentPlayerHelath + "!");
+                        continue GAMESTART;
+                    } else if (choice.equals('Q')) {
 
-                    System.out.println("Your score for the game was " + this.score);
+                        System.out.println("\t Your score for the game was " + this.score);
 
-                    Thread.sleep(2000);
+                        Thread.sleep(2000);
 
-                    System.out.println("######################");
-                    System.out.println("# THANKS FOR PLAYING #");
-                    System.out.println("######################");
+                        System.out.println("######################");
+                        System.out.println("# THANKS FOR PLAYING #");
+                        System.out.println("######################");
 
-                }
+                        break GAMESTART;
 
-                else {
+                    } else if(choice.equals('\n')) {
+                        System.out.println("\t Choose a valid option.");
+                        continue GAMESTART;
+                    } else {
+                        System.out.println("\t Choose a valid option.");
+                        continue GAMESTART;
+                    }
+                } catch (StringIndexOutOfBoundsException e) {
+                    Main.log.warn(e + " Thrown at line 157, when the enter key is hit");
                     System.out.println("\t Choose a valid option.");
                     continue GAMESTART;
                 }
-
 
             }
         }
     }
 
-
-    public static void main(String[] args) throws InterruptedException {
-        Game game = new Game();
-        game.startGame();
-    }
 }

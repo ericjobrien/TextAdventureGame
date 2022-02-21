@@ -88,7 +88,9 @@ public class Move {
             previousRoom = currentRoom;
             currentRoom = Room.getRoomByName(currentRoom.getNorth());
             Move.currentRoom = currentRoom;
+            System.out.println("\t --------------------------------------------------------");
             System.out.println("\t You have moved to a new room.");
+            System.out.println("\t --------------------------------------------------------");
             System.out.println("\t " + currentRoom.getDescription());
         }
     }
@@ -108,7 +110,9 @@ public class Move {
             previousRoom = currentRoom;
             currentRoom = Room.getRoomByName(currentRoom.getEast());
             Move.currentRoom = currentRoom;
+            System.out.println("\t --------------------------------------------------------");
             System.out.println("\t You have moved to a new room.");
+            System.out.println("\t --------------------------------------------------------");
             System.out.println("\t " + currentRoom.getDescription());
         }
     }
@@ -128,7 +132,9 @@ public class Move {
             previousRoom = currentRoom;
             currentRoom = Room.getRoomByName(currentRoom.getSouth());
             Move.currentRoom = currentRoom;
+            System.out.println("\t --------------------------------------------------------");
             System.out.println("\t You have moved to a new room.");
+            System.out.println("\t --------------------------------------------------------");
             System.out.println("\t " + currentRoom.getDescription());
         }
     }
@@ -148,7 +154,9 @@ public class Move {
             previousRoom = currentRoom;
             currentRoom = Room.getRoomByName(currentRoom.getWest());
             Move.currentRoom = currentRoom;
+            System.out.println("\t --------------------------------------------------------");
             System.out.println("\t You have moved to a new room.");
+            System.out.println("\t --------------------------------------------------------");
             System.out.println("\t " + currentRoom.getDescription());
         }
     }

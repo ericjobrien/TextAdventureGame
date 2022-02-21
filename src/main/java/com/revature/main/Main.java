@@ -20,8 +20,6 @@ public class Main {
     public static Connection conn = ConnectionUtil.getConnection();
 
     public static void main(String[] args) {
-        Game game = new Game();
-
 
         RoomDAO roomDAO = new RoomDAO();
         MonsterDAO monsterDAO = new MonsterDAO();
@@ -54,7 +52,15 @@ public class Main {
 
         Fight fight = new Fight();
 
-        System.out.println(fight.getPlayer().getType_of_player());
+        log.info(fight.getPlayer().getType_of_player());
+
+        Game game = new Game();
+        try {
+            game.startGame();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }
