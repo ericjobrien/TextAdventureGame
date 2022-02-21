@@ -10,16 +10,18 @@ public class Monster {
     String type_of_monster;
     int max_health;
     int current_health;
+    int attack_damage;
     int potion_drop_chance;
 
     public Monster() {
     }
 
-    public Monster(int monster_id, String type_of_monster, int max_health, int current_health, int potion_drop_chance) {
+    public Monster(int monster_id, String type_of_monster, int max_health, int current_health, int attack_damage, int potion_drop_chance) {
         this.monster_id = monster_id;
         this.type_of_monster = type_of_monster;
         this.max_health = max_health;
         this.current_health = current_health;
+        this.attack_damage = attack_damage;
         this.potion_drop_chance = potion_drop_chance;
     }
 
@@ -55,6 +57,14 @@ public class Monster {
         this.current_health = current_health;
     }
 
+    public int getAttack_damage() {
+        return attack_damage;
+    }
+
+    public void setAttack_damage(int attack_damage) {
+        this.attack_damage = attack_damage;
+    }
+
     public int getPotion_drop_chance() {
         return potion_drop_chance;
     }
@@ -70,6 +80,7 @@ public class Monster {
                 ", type_of_monster='" + type_of_monster + '\'' +
                 ", max_health=" + max_health +
                 ", current_health=" + current_health +
+                ", attack_damage=" + attack_damage +
                 ", potion_drop_chance=" + potion_drop_chance +
                 '}';
     }

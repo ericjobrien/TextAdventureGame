@@ -1,5 +1,10 @@
 package com.revature.model;
 
+import com.revature.collections.GenericArrayList;
+import com.revature.dao.RoomDAO;
+
+import java.sql.SQLOutput;
+
 public class Room {
 
     int room_id;
@@ -90,5 +95,27 @@ public class Room {
                 ", south='" + south + '\'' +
                 ", west='" + west + '\'' +
                 '}';
+    }
+
+    public static Room getRoomByName(String roomName) {
+
+        Room room = new Room();
+        RoomDAO roomDAO = new RoomDAO();
+        GenericArrayList allRooms = roomDAO.getAllRooms();
+        Room[] roomArray = (Room[]) allRooms.getGenericArray();
+
+        for(int i = 0; i < roomArray.length; i++) {
+            if(roomArray[i].getName().equals(roomName))  {
+               room = roomArray[i];
+               break;
+            } else if(!roomArray[i].getName().equals(roomName)){
+                continue;
+            } else {
+                System.out.println("No room exits by that name");
+                return null;
+            }
+        }
+
+        return room;
     }
 }

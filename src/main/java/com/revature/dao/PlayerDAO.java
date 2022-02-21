@@ -44,6 +44,7 @@ public class PlayerDAO {
                                                 rs2.getString("type_of_player"),
                                                 rs2.getInt("max_health"),
                                                 rs2.getInt("current_health"),
+                                                rs2.getInt("attack_damage"),
                                                 rs2.getInt("health_potion_amount"));
 
                 genericArrayList.addElement(nextPlayer);

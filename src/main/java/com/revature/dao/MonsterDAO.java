@@ -45,6 +45,7 @@ public class MonsterDAO {
                                                     rs2.getString("type_of_monster"),
                                                     rs2.getInt("max_health"),
                                                     rs2.getInt("current_health"),
+                                                    rs2.getInt("attack_damage"),
                                                     rs2.getInt("potion_drop_chance"));
 
                 genericArrayList.addElement(nextMonster);

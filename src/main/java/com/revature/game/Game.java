@@ -1,25 +1,50 @@
 package com.revature.game;
 
-import com.revature.util.ConnectionUtil;
+import com.revature.actions.Fight;
+import com.revature.actions.Move;
+import com.revature.collections.GenericArrayList;
+import com.revature.dao.RoomDAO;
+import com.revature.model.Player;
+import com.revature.model.Room;
 
-import java.sql.Connection;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Game {
 
-    Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
+    private int score;
 
-    String playerOptions =  "What would you like to do? \n" +
+    private final String playerOptions =  "What would you like to do? \n" +
             "M -- Move \n" +
-            "P -- Drink a health potion \n" +
-            "Decision: ";
+            "P -- Drink a health potion";
 
-    public void startGame() {
+    private final Fight fight = new Fight();
+    private final Move move = new Move();
+
+    public Fight getFight() {
+        return fight;
+    }
+
+    public Move getMove() {
+        return move;
+    }
+
+    public String getPlayerOptions() {
+        return playerOptions;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void startGame() throws InterruptedException {
         System.out.println("Game is starting.....");
-        System.out.println("*****************************************************");
-        System.out.println("*****************************************************");
-        System.out.println("*****************************************************");
+
+        System.out.println("**************************************************************************************************************");
 
         System.out.println("WW          WW          WW   EEEEEEEEEE   LL          CCCCCCCCCC   OOOOOOOOOO   MM             MM   EEEEEEEEEE");
         System.out.println(" WW        WW WW       WW    EE           LL          CC           OO      OO   MM MM       MM MM   EE");
@@ -28,60 +53,99 @@ public class Game {
         System.out.println("    WW  WW       WW WW       EE           LL          CC           OO      OO   MM    MM MM    MM   EE");
         System.out.println("      WW          WW         EEEEEEEEEE   LLLLLLLLL   CCCCCCCCCC   OOOOOOOOOO   MM      MM     MM   EEEEEEEEEE");
 
-        System.out.println("You awaken in a dark cave.  It smells like spoiled seafood and trash.");
+        System.out.println("**************************************************************************************************************");
+        System.out.println();
+        System.out.println();
 
 
-        Character[] move = {'N', 'E', 'S', 'W'}; //Right, Left, Up, Down
-        Character moveValue;
+        RoomDAO roomDAO = new RoomDAO();
+        GenericArrayList allRooms = roomDAO.getAllRooms();
+        Room[] roomArray = (Room[]) allRooms.getGenericArray();
+        Character choice;
+
+        Fight fight = this.fight;
+
+        Player player = fight.getPlayer();
+        move.setCurrentRoom(roomArray[0]);
+
+        Thread.sleep(1000);
+        System.out.println("\t You are playing as a " + player.getType_of_player());
+        Thread.sleep(1000);
+        System.out.println("\t You awaken in a dark cave..............");
+        Thread.sleep(1000);
+        System.out.println("\t Player Health is " + String.valueOf(player.getMax_health()));
+        Thread.sleep(1000);
+        System.out.println("\t You have " + String.valueOf(player.getHealth_potion_amount()) + " health potions");
+        Thread.sleep(1000);
+        System.out.println("\t Fight enemies for a chance to find more health potion.");
+        Thread.sleep(1000);
+
         boolean running = true;
 
+        int score = 0;
+
+        int currentPlayerHelath = player.getCurrent_health();
+
         GAMESTART:
-        while(running) {
+        while (running) {
 
-            System.out.println(this.playerOptions);
+            System.out.println("\t What would you like to do?");
+            Thread.sleep(1000);
+            System.out.println(playerOptions);
+            choice = scanner.nextLine().toUpperCase().charAt(0);
 
-            Character nextChar  = scanner.next().toUpperCase().charAt(0);
-
-            if(nextChar.equals('M')) {
-                System.out.println("You have chosen to move.  Use N (north), S (south), E (east), W (west) to move.");
-                nextChar = scanner.next().toUpperCase().charAt(0);
-
-
-            for (int i = 0; i < move.length; i++) {
-                moveValue = move[i];
-                if (moveValue.equals(nextChar)) {
-                    break;
-                } else if(!moveValue.equals(nextChar)) {
-                    continue;
-                } else {
-                    System.out.println("Choose N (north), S (south), E (east), W (west) to move.");
-                    nextChar = scanner.next().toUpperCase().charAt(0);
-                    continue;
-                }
-            }
-            boolean isTrue = true;
-
-            FIRSTROOM:
-            while (isTrue) {
-                if (nextChar.equals('E')) {
-                    System.out.println("You enter a small dark room. \n");
-                    System.out.println();
-                    System.out.println();
-                    isTrue = false;
+            CHOICE:
+            while(true) {
+                if (choice.equals('M')) {
+                    boolean willFight = fight.rollForFight();
+                    if(willFight == true) {
+                        fight.fightSequence();
+                        int fightScore = fight.getScore();
+                        fight.setScore(0);
+                        this.score += fightScore;
+                        Thread.sleep(1000);
+                        System.out.println("Your current score is " + this.score);
+                        Thread.sleep(1000);
+                        System.out.println("\t Your fight is over and now you will move.");
+                    }
+                    move.move();
+                    Thread.sleep(1000);
+                    System.out.println("\t Your move has completed");
                     continue GAMESTART;
-                } else {
-                    System.out.println("You are trapped!");
-                    nextChar = scanner.next().toUpperCase().charAt(0);
-                    continue FIRSTROOM;
-                }
-            }
+                } else if (choice.equals('P')) {
+                    Game game = new Game ();
+                    int healthAfterPotion = Player.useHealthPotion(player);
+                    currentPlayerHelath = healthAfterPotion;
+                    fight.getPlayer().setCurrent_health(currentPlayerHelath);
+                    player.setCurrent_health(currentPlayerHelath);
+                    Thread.sleep(1000);
+                    System.out.println("Your current health is " + currentPlayerHelath + "!");
+                    continue GAMESTART;
+                } else if (choice.equals('Q')) {
 
-//                    case 'E':
-//                        System.out.println("You enter a small room full of rotting flesh and cheese. \n" +
-//                                            "You are attacked by a zombie and it eats you.");
-//                        isTrue = false;
-//                        break;
+                    System.out.println("Your score for the game was " + this.score);
+
+                    Thread.sleep(2000);
+
+                    System.out.println("######################");
+                    System.out.println("# THANKS FOR PLAYING #");
+                    System.out.println("######################");
+
+                }
+
+                else {
+                    System.out.println("\t Choose a valid option.");
+                    continue GAMESTART;
+                }
+
+
             }
         }
+    }
+
+
+    public static void main(String[] args) throws InterruptedException {
+        Game game = new Game();
+        game.startGame();
     }
 }

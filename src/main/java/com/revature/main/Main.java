@@ -1,5 +1,6 @@
 package com.revature.main;
 
+import com.revature.actions.Fight;
 import com.revature.collections.GenericArrayList;
 import com.revature.dao.MonsterDAO;
 import com.revature.dao.PlayerDAO;
@@ -19,8 +20,8 @@ public class Main {
     public static Connection conn = ConnectionUtil.getConnection();
 
     public static void main(String[] args) {
-//        Game game = new Game();
-//        game.startGame();
+        Game game = new Game();
+
 
         RoomDAO roomDAO = new RoomDAO();
         MonsterDAO monsterDAO = new MonsterDAO();
@@ -50,6 +51,10 @@ public class Main {
         Monster monster3 = Monster.findByType("Skeleton");
 
         log.info(monster3.toString());
+
+        Fight fight = new Fight();
+
+        System.out.println(fight.getPlayer().getType_of_player());
 
     }
 }
